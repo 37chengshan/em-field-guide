@@ -1,0 +1,1735 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电磁场与电磁波 1-5章 知识点总结</title>
+<meta name="description" content="电磁场与电磁波第1-5章知识点总结，包含矢量分析、静电场、边值问题、恒定电流场、麦克斯韦方程组">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+/* ===== CSS Reset & Base ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#fbfaf6; --bg-soft:#f4f1e8; --surface:#ffffff; --surface-2:#f6f3ea;
+  --border:rgba(60,45,20,.12); --text-1:#2a2418; --text-2:#5a5140; --text-3:#8a7f68;
+  --accent:#2d7d6e; --accent-2:#d88a3a; --accent-3:#c4593f;
+  --radius:14px; --shadow:0 12px 30px rgba(60,45,20,.07);
+  --sidebar-w:260px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+html,body{
+  height:100%; overflow:hidden;
+  background:var(--bg); color:var(--text-1);
+  font-family:'Inter','Noto Sans SC',sans-serif;
+  font-size:15px; line-height:1.6;
+}
+
+/* ===== Slide Container ===== */
+.viewport{
+  display:flex; height:100vh; width:100vw; position:relative;
+}
+
+/* ===== Sidebar ===== */
+.sidebar{
+  width:var(--sidebar-w); min-width:var(--sidebar-w);
+  height:100vh; overflow-y:auto;
+  background:var(--bg-soft);
+  border-right:1px solid var(--border);
+  padding:28px 22px 40px;
+  display:flex; flex-direction:column; gap:18px;
+  transition: transform .3s ease;
+  z-index:20;
+}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;transition:background .2s}
+.sidebar:hover::-webkit-scrollbar-thumb{background:rgba(60,45,20,.25)}
+
+.sidebar-title{
+  font-family:'Playfair Display',serif;
+  font-size:17px; font-weight:700; color:var(--text-1);
+  line-height:1.35; margin-bottom:4px;
+}
+.sidebar-subtitle{
+  font-size:13px; color:var(--text-2); margin-bottom:10px;
+}
+
+.sidebar-nav{display:flex; flex-direction:column; gap:3px}
+.sidebar-nav-item{
+  display:flex; align-items:center; gap:10px;
+  padding:8px 12px; border-radius:10px;
+  cursor:pointer; transition: all .2s;
+  font-size:13px; color:var(--text-2);
+  user-select:none;
+}
+.sidebar-nav-item:hover{background:rgba(45,125,110,.06);color:var(--text-1)}
+.sidebar-nav-item.active{
+  background:var(--accent); color:#fff; font-weight:500;
+}
+.sidebar-nav-item .num{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:22px; height:22px; border-radius:6px; font-size:11px; font-weight:600;
+  background:rgba(45,125,110,.1); color:var(--accent);
+  flex-shrink:0;
+}
+.sidebar-nav-item.active .num{ background:rgba(255,255,255,.25); color:#fff }
+
+.sidebar-progress{margin-top:auto; padding-top:14px; border-top:1px solid var(--border)}
+.progress-bar-wrap{
+  height:6px; border-radius:3px; background:rgba(60,45,20,.08);
+  overflow:hidden; margin-top:8px;
+}
+.progress-bar-fill{
+  height:100%; background:var(--accent); border-radius:3px;
+  transition: width .4s ease;
+}
+.progress-label{ font-size:11px; color:var(--text-3); }
+
+.sidebar-objectives{margin-top:6px}
+.sidebar-objectives h3{
+  font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.8px; color:var(--text-2); margin-bottom:8px;
+}
+.objective-item{
+  font-size:12px; color:var(--text-2); padding:3px 0 3px 14px;
+  position:relative; line-height:1.5;
+}
+
+.sidebar-shortcut{
+  margin-top:8px; font-size:11px; color:var(--text-3);
+  text-align:center; line-height:1.7;
+}
+.sidebar-shortcut kbd{
+  display:inline-block; padding:1px 6px; border:1px solid var(--border);
+  border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:10px;
+  background:var(--surface); margin:0 2px;
+}
+
+/* ===== Slide Area ===== */
+.slide-area{
+  flex:1; position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg);
+}
+
+.slide{
+  position:absolute; inset:0;
+  display:none; flex-direction:column;
+  padding:44px 56px 52px;
+  overflow-y:auto; overflow-x:hidden;
+}
+.slide.active{display:flex}
+.slide::-webkit-scrollbar{width:5px}
+.slide::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+@keyframes fadeSlideInRight{ from{opacity:0;transform:translateX(24px)} to{opacity:1;transform:none} }
+@keyframes fadeSlideInLeft{ from{opacity:0;transform:translateX(-24px)} to{opacity:1;transform:none} }
+.slide.anim-right{ animation:fadeSlideInRight .35s ease }
+.slide.anim-left{ animation:fadeSlideInLeft .35s ease }
+
+/* ===== Full Slide (cover/summary) ===== */
+.slide.full{
+  align-items:center; justify-content:center; text-align:center;
+}
+
+/* ===== Slide Header ===== */
+.kicker{
+  display:inline-block; padding:4px 14px; border-radius:20px;
+  background:rgba(45,125,110,.15); color:var(--accent);
+  font-size:11px; font-weight:600; letter-spacing:.6px;
+  text-transform:uppercase; margin-bottom:14px;
+  border:1px solid rgba(45,125,110,.18);
+}
+.slide h2{
+  font-family:'Playfair Display',serif;
+  font-size:30px; font-weight:700; color:var(--text-1);
+  line-height:1.3; margin-bottom:8px;
+}
+.slide h3{
+  font-family:'Playfair Display',serif;
+  font-size:22px; font-weight:600; color:var(--text-1);
+  line-height:1.35; margin-bottom:6px;
+}
+.slide .lead{
+  font-size:16px; color:var(--text-2); line-height:1.65;
+  max-width:700px; margin-bottom:28px;
+}
+.slide .lead.center{ margin-left:auto; margin-right:auto }
+
+/* ===== Concept Box ===== */
+.concept-box{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:20px 24px;
+  box-shadow:var(--shadow); margin-bottom:16px;
+}
+.concept-box h4{
+  font-size:15px; font-weight:600; color:var(--text-1);
+  margin-bottom:6px; display:flex; align-items:center; gap:8px;
+}
+.concept-box h4 .badge{
+  font-size:10px; padding:2px 8px; border-radius:10px;
+  font-weight:600; background:rgba(45,125,110,.1); color:var(--accent);
+}
+.concept-box p{
+  font-size:14px; color:var(--text-2); line-height:1.65;
+}
+.concept-box .detail{
+  font-size:13px; color:var(--text-2); margin-top:6px; line-height:1.6;
+}
+
+/* ===== Callout ===== */
+.callout{
+  border-left:3px solid var(--accent-2);
+  background:rgba(216,138,58,.10);
+  border-radius:0 10px 10px 0;
+  padding:14px 18px; margin:14px 0;
+  font-size:13.5px; color:var(--text-1); line-height:1.6;
+}
+.callout.warn{ border-left-color:var(--accent-3); background:rgba(196,89,63,.08); color:var(--text-1) }
+.callout strong{ color:var(--text-1) }
+
+/* ===== Code (formula) ===== */
+.code, .formula-block{
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px; font-weight:500;
+  background:var(--surface-2); border:1px solid var(--border);
+  border-radius:10px; padding:14px 20px;
+  color:var(--text-1); line-height:1.7;
+  overflow-x:auto; margin:10px 0;
+}
+.formula-block.highlight{
+  background:rgba(45,125,110,.05);
+  border-color:rgba(45,125,110,.2);
+}
+.formula-block.accent{
+  background:rgba(216,138,58,.06);
+  border-color:rgba(216,138,58,.2);
+}
+
+/* ===== Grid layouts ===== */
+.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:16px }
+.grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px }
+.grid-1{ display:grid; grid-template-columns:1fr; gap:14px }
+
+/* ===== Section list inside slides ===== */
+.section-list{ display:flex; flex-direction:column; gap:14px }
+
+.section-card{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:18px 22px;
+  box-shadow:0 4px 14px rgba(60,45,20,.04);
+}
+.section-card .sc-title{
+  font-weight:600; font-size:14.5px; color:var(--text-1);
+  margin-bottom:5px; display:flex; align-items:center; gap:8px;
+}
+.section-card .sc-title .idx{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:24px; height:24px; border-radius:7px; font-size:11px;
+  background:rgba(45,125,110,.1); color:var(--accent); font-weight:600;
+  flex-shrink:0;
+}
+.section-card p{ font-size:13.5px; color:var(--text-2); line-height:1.6 }
+.section-card .formula-inline{
+  font-family:'JetBrains Mono',monospace; font-size:13px;
+  background:var(--surface-2); border:1px solid var(--border);
+  border-radius:8px; padding:10px 14px; margin-top:8px;
+  color:var(--text-1); line-height:1.6; display:block;
+}
+
+/* ===== Cover slide specifics ===== */
+.cover-icon{
+  font-size:56px; margin-bottom:16px; opacity:.7;
+}
+.cover-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,4.5vw,48px); font-weight:800;
+  color:var(--text-1); line-height:1.2; margin-bottom:12px;
+}
+.cover-sub{
+  font-size:18px; color:var(--text-2); font-weight:400;
+  margin-bottom:32px; line-height:1.6;
+}
+.cover-meta{
+  font-size:13px; color:var(--text-3); display:flex; gap:20px;
+  flex-wrap:wrap; justify-content:center;
+}
+.cover-meta span{ display:flex; align-items:center; gap:5px }
+.cover-divider{
+  width:60px; height:3px; border-radius:2px;
+  background:var(--accent); margin:24px auto;
+}
+.cover-chips{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:20px }
+.pill-academic{
+  display:inline-block; padding:5px 14px; border-radius:20px;
+  font-size:12px; font-weight:500;
+  background:rgba(45,125,110,.08); color:var(--accent);
+  border:1px solid rgba(45,125,110,.15);
+}
+.pill-academic.warm{ background:rgba(216,138,58,.08); color:var(--accent-2); border-color:rgba(216,138,58,.15) }
+
+/* ===== Summary slide specifics ===== */
+.summary-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; max-width:860px; width:100%; text-align:left }
+.summary-card{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:16px 20px;
+  box-shadow:0 4px 14px rgba(60,45,20,.04);
+}
+.summary-card h4{
+  font-size:14px; font-weight:600; color:var(--accent);
+  margin-bottom:6px;
+}
+.summary-card p{ font-size:13px; color:var(--text-2); line-height:1.55 }
+.summary-card ul{ list-style:none; padding:0; margin:0 }
+.summary-card li{
+  font-size:13px; color:var(--text-2); line-height:1.6;
+  padding:3px 0 3px 16px; position:relative;
+}
+.summary-card li::before{
+  content:''; position:absolute; left:0; top:10px;
+  width:6px; height:6px; border-radius:50%;
+  background:var(--accent-2);
+}
+
+/* ===== Maxwell special slide ===== */
+.maxwell-eq-group{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:20px 24px;
+  box-shadow:var(--shadow); position:relative; overflow:hidden;
+}
+.maxwell-eq-group::before{
+  content:''; position:absolute; top:0; left:0;
+  width:4px; height:100%; border-radius:2px;
+}
+.maxwell-eq-group:nth-child(1)::before{ background:var(--accent) }
+.maxwell-eq-group:nth-child(2)::before{ background:var(--accent-2) }
+.maxwell-eq-group:nth-child(3)::before{ background:var(--accent-3) }
+.maxwell-eq-group:nth-child(4)::before{ background:#6b5ce7 }
+.maxwell-eq-group h4{
+  font-size:14px; font-weight:600; color:var(--text-1); margin-bottom:4px;
+}
+.maxwell-eq-group .eq-name{ font-size:12px; color:var(--text-3); margin-bottom:6px }
+.maxwell-eq-group .eq-diff,
+.maxwell-eq-group .eq-integ{
+  font-family:'JetBrains Mono',monospace; font-size:13px;
+  color:var(--text-1); line-height:1.6;
+  padding:8px 12px; border-radius:8px;
+  background:var(--surface-2); margin:4px 0;
+}
+.maxwell-eq-group .eq-meaning{
+  font-size:12.5px; color:var(--text-2); line-height:1.55; margin-top:6px;
+}
+
+/* ===== Exam focus ===== */
+.exam-list{ max-width:780px; width:100%; text-align:left }
+.exam-item{
+  display:flex; align-items:flex-start; gap:12px;
+  padding:12px 18px; border-radius:10px;
+  background:var(--surface); border:1px solid var(--border);
+  margin-bottom:8px; transition:all .2s;
+}
+.exam-item:hover{ box-shadow:var(--shadow); transform:translateY(-1px) }
+.exam-item .num{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:8px; font-size:12px;
+  background:rgba(45,125,110,.1); color:var(--accent);
+  font-weight:700; flex-shrink:0; margin-top:1px;
+}
+.exam-item .text{ font-size:14px; color:var(--text-2); line-height:1.55 }
+
+/* ===== Nav arrows ===== */
+.nav-arrows{
+  position:fixed; bottom:28px; right:32px;
+  display:flex; gap:8px; z-index:30;
+}
+.nav-btn{
+  width:42px; height:42px; border-radius:50%;
+  background:var(--surface); border:1px solid var(--border);
+  box-shadow:var(--shadow); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; color:var(--text-2); transition:all .2s;
+  user-select:none;
+}
+.nav-btn:hover{ background:var(--accent); color:#fff; border-color:var(--accent) }
+.nav-btn:active{ transform:scale(.93) }
+.nav-btn.disabled{ opacity:.35; pointer-events:none }
+
+/* ===== Page indicator (inside sidebar) ===== */
+.page-indicator{
+  font-size:12px; color:var(--text-2); text-align:center;
+  pointer-events:none; margin-top:4px;
+}
+
+/* ===== Utility classes ===== */
+.mt-2{ margin-top:2px }
+.mt-4{ margin-top:4px }
+.mt-6{ margin-top:6px }
+.mt-8{ margin-top:8px }
+.mt-16{ margin-top:16px }
+.mt-20{ margin-top:20px }
+.mt-24{ margin-top:24px }
+.mb-0{ margin-bottom:0 }
+.mb-3{ margin-bottom:3px }
+.mb-4{ margin-bottom:4px }
+.mb-6{ margin-bottom:6px }
+.p-0{ margin:0 }
+.fs-12{ font-size:12px }
+.fs-12p5{ font-size:12.5px }
+.fs-13{ font-size:13px }
+.fs-13p5{ font-size:13.5px }
+.fw-600{ font-weight:600 }
+.text-accent{ color:var(--accent) }
+.text-accent-2{ color:var(--accent-2) }
+.text-accent-3{ color:var(--accent-3) }
+.text-purple{ color:#6b5ce7 }
+.text-muted{ color:var(--text-2) }
+.text-detail{ color:var(--text-2); font-size:12px; line-height:1.5 }
+.text-center{ text-align:center }
+.max-w-640{ max-width:640px }
+.max-w-780{ max-width:780px }
+.max-w-860{ max-width:860px }
+.grid-2 > div{ padding:0 }
+.sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0 }
+.maxwell-table{
+  width:100%; border-collapse:collapse; font-size:13px;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); overflow:hidden;
+}
+.maxwell-table th{
+  background:var(--bg-soft); font-weight:600; color:var(--text-1);
+  padding:10px 14px; text-align:left; border-bottom:1px solid var(--border);
+  font-size:12.5px;
+}
+.maxwell-table td{
+  padding:10px 14px; border-bottom:1px solid var(--border);
+  color:var(--text-2); vertical-align:top;
+}
+.maxwell-table tr:last-child td{ border-bottom:none }
+.maxwell-table .formula-cell{
+  font-family:'JetBrains Mono',monospace; font-size:12.5px;
+  color:var(--text-1);
+}
+.eq-card{
+  padding:12px 16px; background:var(--surface-2); border-radius:10px;
+}
+.eq-card-label{ font-size:12px; font-weight:600; margin-bottom:3px }
+.eq-card-label.l-accent{ color:var(--accent) }
+.eq-card-label.l-accent-2{ color:var(--accent-2) }
+.eq-card-label.l-accent-3{ color:var(--accent-3) }
+.eq-card-label.l-purple{ color:#6b5ce7 }
+.eq-card-desc{ font-size:12px; color:var(--text-2); margin-top:3px; line-height:1.5 }
+.bv-card{
+  padding:10px 14px; background:var(--surface-2); border-radius:10px;
+}
+/* ===== Tooltip for warm pill ===== */
+.pill-warm-wrap{ position:relative; display:inline-block }
+.pill-warm-wrap .pill-tip{
+  display:none; position:absolute; bottom:calc(100% + 6px); left:50%;
+  transform:translateX(-50%); padding:4px 10px; border-radius:6px;
+  background:var(--text-1); color:#fff; font-size:11px; white-space:nowrap;
+  pointer-events:none; z-index:10;
+}
+.pill-warm-wrap .pill-tip::after{
+  content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:5px solid transparent; border-top-color:var(--text-1);
+}
+.pill-warm-wrap:hover .pill-tip{ display:block }
+
+/* ===== Hamburger menu ===== */
+.hamburger-btn{
+  display:none; position:fixed; top:16px; left:16px; z-index:40;
+  width:42px; height:42px; border-radius:10px;
+  background:var(--surface); border:1px solid var(--border);
+  box-shadow:var(--shadow); cursor:pointer;
+  align-items:center; justify-content:center;
+  flex-direction:column; gap:4px; padding:10px;
+}
+.hamburger-btn span{
+  display:block; width:20px; height:2px; background:var(--text-1);
+  border-radius:1px; transition:all .25s;
+}
+.hamburger-btn.active span:nth-child(1){ transform:rotate(45deg) translate(4px,4px) }
+.hamburger-btn.active span:nth-child(2){ opacity:0 }
+.hamburger-btn.active span:nth-child(3){ transform:rotate(-45deg) translate(4px,-4px) }
+
+.mobile-overlay{
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.3);
+  z-index:19; opacity:0; transition:opacity .3s;
+}
+.mobile-overlay.show{ display:block; opacity:1 }
+
+/* ===== Responsive ===== */
+@media(max-width:900px){
+  .hamburger-btn{display:flex}
+  .sidebar{
+    position:fixed; top:0; left:0; transform:translateX(-100%);
+    box-shadow:none; width:280px; min-width:280px;
+  }
+  .sidebar.open{ transform:translateX(0); box-shadow:4px 0 24px rgba(0,0,0,.15) }
+  .slide{padding:32px 28px 80px}
+  .grid-2{grid-template-columns:1fr}
+  .grid-3{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr}
+  .nav-arrows{bottom:16px;right:16px}
+  .nav-btn{width:38px;height:38px}
+}
+
+/* ===== Fix 1: Skip Navigation Link ===== */
+.skip-nav{
+  position:absolute; top:-100%; left:0;
+  background:var(--accent); color:#fff;
+  padding:12px 20px; z-index:100;
+  font-size:14px; font-weight:500;
+  border-radius:0 0 8px 0;
+  text-decoration:none; transition:top .2s;
+}
+.skip-nav:focus{ top:0 }
+
+/* ===== Fix 1: Focus-visible styles ===== */
+.sidebar-nav-item:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+.nav-btn:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+.hamburger-btn:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+
+/* ===== Fix 2: Exit animations ===== */
+@keyframes fadeSlideOutRight{ from{opacity:1;transform:none} to{opacity:0;transform:translateX(-24px)} }
+@keyframes fadeSlideOutLeft{ from{opacity:1;transform:none} to{opacity:0;transform:translateX(24px)} }
+.slide.anim-exit-right{ animation:fadeSlideOutRight .25s ease forwards; pointer-events:none }
+.slide.anim-exit-left{ animation:fadeSlideOutLeft .25s ease forwards; pointer-events:none }
+
+/* ===== Fix 2: prefers-reduced-motion ===== */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+  }
+  .slide.anim-right,.slide.anim-left,.slide.anim-exit-right,.slide.anim-exit-left{
+    animation:none !important;
+  }
+}
+
+/* ===== Fix 4: Objective checkbox styles ===== */
+.objective-item{
+  cursor:pointer; display:flex; align-items:flex-start; gap:6px;
+  padding:4px 0 4px 14px; transition:background .15s;
+  border-radius:6px; margin:2px 0;
+}
+.objective-item:hover{ background:rgba(45,125,110,.04) }
+.objective-item::before{
+  content:'';
+  display:inline-flex; align-items:center; justify-content:center;
+  width:14px; height:14px; min-width:14px;
+  border:2px solid var(--border); border-radius:3px;
+  background:var(--surface); margin-top:1px;
+  transition:all .2s; position:static;
+}
+.objective-item.done::before{
+  background:var(--accent); border-color:var(--accent);
+  content:''; position:relative;
+}
+.objective-item.done::after{
+  content:''; display:block;
+  width:6px; height:3px;
+  border-left:2px solid #fff; border-bottom:2px solid #fff;
+  transform:rotate(-45deg);
+  position:absolute; margin-left:3px; margin-top:-1px;
+}
+.objective-item.done{ color:var(--text-1); font-weight:500 }
+
+/* ===== Fix 4: Global progress ===== */
+.global-progress{
+  padding:8px 0; margin-top:4px;
+}
+.global-progress .progress-stat{
+  font-size:11px; color:var(--text-3);
+  margin-bottom:4px; line-height:1.5;
+}
+.global-progress .progress-stat strong{ color:var(--accent); font-weight:600 }
+
+/* ===== Fix 5: ARIA current page ===== */
+.sidebar-nav-item[aria-current="page"]{
+  background:var(--accent); color:#fff; font-weight:500;
+}
+
+/* ===== Fix 6: 320px breakpoint ===== */
+@media(max-width:320px){
+  .sidebar{padding:20px 16px 32px}
+  .sidebar-title{font-size:15px}
+  .sidebar-subtitle{font-size:12px}
+  .slide{padding:24px 16px 72px}
+  .slide h2{font-size:22px}
+  .slide .lead{font-size:14px}
+  .cover-title{font-size:26px}
+  .cover-sub{font-size:15px}
+  .nav-btn{width:44px;height:44px}
+  .nav-arrows{bottom:12px;right:12px;gap:10px}
+  .concept-box{padding:14px 16px}
+  .section-card{padding:14px 16px}
+  .formula-inline,.formula-block{font-size:12px;padding:10px 12px}
+  .grid-3{grid-template-columns:1fr}
+}
+
+/* ===== Fix 6: Landscape orientation ===== */
+@media(max-height:500px) and (orientation:landscape){
+  .sidebar{height:100vh;padding:16px 18px 24px;gap:12px}
+  .sidebar-title{font-size:14px;margin-bottom:2px}
+  .sidebar-subtitle{font-size:11px;margin-bottom:4px}
+  .sidebar-nav-item{padding:5px 10px;font-size:12px}
+  .sidebar-nav-item .num{width:18px;height:18px;font-size:10px}
+  .sidebar-progress{padding-top:8px}
+  .sidebar-shortcut{display:none}
+  .sidebar-objectives{display:none}
+  .slide{padding:20px 32px 64px}
+  .nav-btn{width:36px;height:36px}
+  .slide h2{font-size:20px}
+  .slide .lead{font-size:13px;margin-bottom:16px}
+}
+
+/* ===== Fix 6: Increased touch targets ===== */
+@media(pointer:coarse){
+  .nav-btn{min-width:44px;min-height:44px}
+  .hamburger-btn{min-width:44px;min-height:44px}
+  .sidebar-nav-item{min-height:36px}
+}
+
+/* ===== Fix 7: Loading overlay ===== */
+.loading-overlay{
+  position:fixed; inset:0;
+  background:var(--bg);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  z-index:999; transition:opacity .4s ease;
+}
+.loading-overlay.hide{ opacity:0; pointer-events:none }
+.loading-spinner{
+  width:36px; height:36px;
+  border:3px solid var(--border);
+  border-top-color:var(--accent);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{ to{transform:rotate(360deg)} }
+.loading-text{
+  margin-top:14px; font-size:13px;
+  color:var(--text-3);
+}
+
+/* ===== Fix 7: Back-to-top button ===== */
+.back-to-top{
+  position:fixed; bottom:80px; right:32px;
+  width:38px; height:38px; border-radius:50%;
+  background:var(--surface); border:1px solid var(--border);
+  box-shadow:var(--shadow); cursor:pointer;
+  display:none; align-items:center; justify-content:center;
+  font-size:14px; color:var(--text-2); z-index:30;
+  transition:all .2s; opacity:0;
+}
+.back-to-top.show{ display:flex; opacity:1 }
+.back-to-top:hover{ background:var(--accent); color:#fff; border-color:var(--accent) }
+.back-to-top:focus-visible{ outline:2px solid var(--accent); outline-offset:2px }
+
+/* ===== Fix 7: Slide TOC panel ===== */
+.slide-toc-btn{
+  position:fixed; top:16px; right:16px;
+  width:38px; height:38px; border-radius:10px;
+  background:var(--surface); border:1px solid var(--border);
+  box-shadow:var(--shadow); cursor:pointer;
+  display:none; align-items:center; justify-content:center;
+  font-size:14px; color:var(--text-2); z-index:30;
+  transition:all .2s;
+}
+.slide-toc-btn:hover{ background:var(--accent); color:#fff; border-color:var(--accent) }
+.slide-toc-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px }
+@media(max-width:900px){
+  .slide-toc-btn{display:flex}
+  .back-to-top{right:16px}
+}
+@media(min-width:901px){
+  .slide-toc-btn{display:flex}
+}
+
+/* ===== Fix 7: Slide progress indicator ===== */
+.slide-progress{
+  position:fixed; top:0; left:0; right:0;
+  height:3px; z-index:35;
+  background:rgba(45,125,110,.1);
+}
+.slide-progress-fill{
+  height:100%; background:var(--accent);
+  transition:width .3s ease;
+}
+
+/* ===== Fix 7: Back-to-top inside slides ===== */
+.slide-top-btn{
+  position:absolute; top:12px; right:16px;
+  width:32px; height:32px; border-radius:8px;
+  background:rgba(255,255,255,.8); border:1px solid var(--border);
+  cursor:pointer; display:none; align-items:center; justify-content:center;
+  font-size:12px; color:var(--text-3); z-index:5;
+  transition:all .2s; backdrop-filter:blur(4px);
+}
+.slide-top-btn.show{ display:flex }
+.slide-top-btn:hover{ background:var(--accent); color:#fff }
+
+@media(max-width:900px){
+  .back-to-top{bottom:72px}
+}
+@media(max-width:320px){
+  .back-to-top{width:40px;height:40px;bottom:12px;right:12px}
+  .slide-top-btn{width:36px;height:36px}
+}
+
+/* ===== Fix 3: KaTeX error fallback ===== */
+.katex-error{
+  color:var(--accent-3); font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+}
+
+/* ===== KaTeX display mode (fractions) ===== */
+.formula-inline.katex-display,
+.formula-cell.katex-display{
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+  padding:14px 16px;
+  margin:10px 0;
+  background:var(--surface-2);
+  border-radius:var(--radius);
+  min-height:52px;
+}
+.formula-inline.katex-display .katex,
+.formula-cell.katex-display .katex{
+  font-size:1.4em !important;
+  line-height:1.6;
+}
+.eq-diff.katex-display,
+.eq-integ.katex-display{
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+  padding:16px 20px;
+  margin:12px 0;
+  background:var(--surface-2);
+  border-radius:var(--radius);
+  min-height:56px;
+}
+.eq-diff.katex-display .katex,
+.eq-integ.katex-display .katex{
+  font-size:1.5em !important;
+  line-height:1.6;
+}
+</style>
+</head>
+<body>
+
+<!-- Fix 1,5: Skip navigation link -->
+<a href="#slideArea" class="skip-nav" id="skipNav">跳过导航，直接查看内容</a>
+
+<!-- Fix 7: Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">正在加载...</div>
+</div>
+
+<!-- Fix 7: Slide progress bar -->
+<div class="slide-progress" id="slideProgress" role="progressbar" aria-valuemin="1" aria-valuemax="8" aria-valuenow="1">
+  <div class="slide-progress-fill" id="slideProgressFill" style="width:12.5%"></div>
+</div>
+
+<button class="hamburger-btn" id="hamburgerBtn" aria-label="打开导航菜单" aria-expanded="false" aria-controls="sidebar">
+  <span></span><span></span><span></span>
+</button>
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="viewport">
+  <!-- ===== Sidebar ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div>
+      <div class="sidebar-title">电磁场与电磁波</div>
+      <div class="sidebar-subtitle">第 1-5 章 知识点总结</div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav" aria-label="章节导航"></nav>
+
+    <div class="sidebar-objectives">
+      <h3>Learning Objectives</h3>
+      <div id="objectivesContainer"></div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label" id="progressLabel">Slide 1 / 8</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill" style="width:12.5%"></div>
+      </div>
+      <div class="page-indicator" id="pageIndicator"></div>
+      <!-- Fix 4: Global progress stats -->
+      <div class="global-progress">
+        <div class="progress-stat" id="globalProgress">已访问 <strong>0</strong> / 8 页 &bull; 已完成 <strong>0</strong> 个目标</div>
+      </div>
+    </div>
+
+    <div class="sidebar-shortcut">
+      <kbd>&larr;</kbd> <kbd>&rarr;</kbd> 键盘导航<br>
+      <kbd>Esc</kbd> 关闭菜单
+    </div>
+  </aside>
+
+  <!-- ===== Slide Area ===== -->
+  <main class="slide-area" id="slideArea">
+
+    <!-- ===== SLIDE 0: Cover ===== -->
+    <section class="slide full" data-title="封面" data-objectives="">
+      <div class="cover-icon"><svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30 6L12 30h14l-4 20L40 26H26l4-20z" fill="var(--accent)" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+      <div class="cover-title">电磁场与电磁波</div>
+      <div class="cover-sub">第 1 - 5 章 知识点总结</div>
+      <div class="cover-divider"></div>
+      <div class="cover-chips">
+        <span class="pill-academic">矢量分析</span>
+        <span class="pill-academic">静电场</span>
+        <span class="pill-academic">边值问题</span>
+        <span class="pill-academic">恒定电流场</span>
+        <span class="pill-warm-wrap"><span class="pill-tip">核心方程</span><span class="pill-academic warm">麦克斯韦方程组</span></span>
+      </div>
+      <div class="cover-meta mt-24">
+        <span>&#128197; 2026-06-18 更新</span>
+        <span>&#128214; 共 5 章</span>
+        <span>&#9733; 含考试重点</span>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 1: 第一章 ===== -->
+    <section class="slide" data-title="第一章 矢量分析与场论基础"
+      data-objectives="掌握哈密顿算符三种运算|理解散度定理与旋度定理">
+      <span class="kicker">Chapter 01</span>
+      <h2>矢量分析与场论基础</h2>
+      <p class="lead">电磁场理论的数学语言：从标量场到矢量场，从微分到积分定理。</p>
+
+      <div class="section-list">
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">1</span>场的基本概念</div>
+          <p>场是物理量在空间中的分布。对于空间中每一点，都有一个确定的物理量与之对应。</p>
+          <div class="callout"><strong>标量场</strong>（温度、电位）只有大小；<strong>矢量场</strong>（电场、磁场）既有大小又有方向。</div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">2</span>矢量运算</div>
+          <p>点积结果为标量，叉积结果为矢量，方向遵循右手定则。</p>
+          <span class="formula-inline">A&middot;B = |A||B|cos&theta;&emsp;&emsp;A&times;B = |A||B|sin&theta; n&#770;</span>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">3</span>哈密顿算符 &nabla;</div>
+          <p>哈密顿算符是一个矢量微分算符，具有三种运算形式。</p>
+          <span class="formula-inline">&nabla; = \frac{\partial}{\partial x}\,\hat{x} + \frac{\partial}{\partial y}\,\hat{y} + \frac{\partial}{\partial z}\,\hat{z}</span>
+          <div class="callout">
+            <strong>&nabla;&Phi;</strong> = 梯度（最大变化率方向）&emsp;
+            <strong>&nabla;&middot;A</strong> = 散度（源强度）&emsp;
+            <strong>&nabla;&times;A</strong> = 旋度（旋转强度）
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">4</span>梯度与方向导数</div>
+          <p>方向导数等于梯度在该方向上的投影，最大值为梯度的模。</p>
+          <span class="formula-inline">\frac{\partial \Phi}{\partial l} = \nabla\Phi \cdot \hat{l} = |\nabla\Phi|\cos\theta</span>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">5</span>重要定理</div>
+          <div class="grid-2 mt-4">
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">高斯散度定理</div>
+              <span class="formula-inline p-0">∮<sub>S</sub> A&middot;dS = ∫<sub>V</sub> (&nabla;&middot;A) dV</span>
+              <div class="text-detail mt-4">面积分 &rarr; 体积分</div>
+            </div>
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">斯托克斯旋度定理</div>
+              <span class="formula-inline p-0">∮<sub>C</sub> A&middot;dl = ∫<sub>S</sub> (&nabla;&times;A)&middot;dS</span>
+              <div class="text-detail mt-4">线积分 &rarr; 面积分</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 2: 第二章 ===== -->
+    <section class="slide" data-title="第二章 静电场"
+      data-objectives="掌握电场强度与电位关系|理解高斯定律|掌握边界条件|计算电场能量">
+      <span class="kicker">Chapter 02</span>
+      <h2>静电场</h2>
+      <p class="lead">由静止电荷产生的电场，具有无旋性（保守场）和有源性。</p>
+
+      <div class="section-list">
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">1</span>电场强度与电位</div>
+          <div class="grid-2 mt-4">
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">电场强度</div>
+              <span class="formula-inline p-0">E = F/q&#8320;</span>
+            </div>
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">电位与电场关系</div>
+              <span class="formula-inline p-0">E = -&nabla;&Phi;</span>
+            </div>
+          </div>
+          <div class="callout mt-8">负号表示电场强度指向电位降低最快的方向。</div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">2</span>真空静电场方程</div>
+          <div class="grid-2 mt-4">
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">高斯定律（微分形式）</div>
+              <span class="formula-inline p-0">\nabla \cdot E = \frac{\rho}{\varepsilon_0}</span>
+              <div class="text-detail mt-4">电荷密度 &rho; 是电场的源</div>
+            </div>
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">无旋性</div>
+              <span class="formula-inline p-0">&nabla;&times;E = 0</span>
+              <div class="text-detail mt-4">静电场是保守场</div>
+            </div>
+          </div>
+          <span class="formula-inline mt-8">\oint_S \mathbf{E} \cdot d\mathbf{S} = \frac{Q_{enclosed}}{\varepsilon_0} \quad \text{（积分形式）}</span>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">3</span>电介质高斯定理</div>
+          <p>引入电位移矢量 D = &epsilon;&#8320;E + P，消除束缚电荷的影响。</p>
+          <span class="formula-inline">&nabla;&middot;D = &rho;<sub>free</sub>&emsp;&emsp;∮<sub>S</sub> D&middot;dS = Q<sub>free</sub></span>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">4</span>边界条件</div>
+          <div class="grid-2 mt-4">
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">介质-介质界面</div>
+              <span class="formula-inline p-0">E<sub>1t</sub> = E<sub>2t</sub></span>
+              <div class="text-detail mt-2">切向电场连续</div>
+            </div>
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">法向分量</div>
+              <span class="formula-inline p-0">D<sub>2n</sub> - D<sub>1n</sub> = &rho;<sub>s</sub></span>
+              <div class="text-detail mt-2">差值等于面电荷密度</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">5</span>电场能量</div>
+          <div class="grid-2 mt-4">
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">能量密度</div>
+              <span class="formula-inline p-0">w<sub>e</sub> = &frac12;&epsilon;|E|&sup2;</span>
+            </div>
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">总能量</div>
+              <span class="formula-inline p-0">W<sub>e</sub> = ∫<sub>V</sub> w<sub>e</sub> dV</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 3: 第三章 ===== -->
+    <section class="slide" data-title="第三章 边值问题与求解方法"
+      data-objectives="理解镜像法原理与条件|掌握分离变量法步骤">
+      <span class="kicker">Chapter 03</span>
+      <h2>边值问题与求解方法</h2>
+      <p class="lead">在给定边界条件下求解拉普拉斯方程或泊松方程，是电磁场的核心计算问题。</p>
+
+      <div class="section-list">
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">1</span>边值问题类型</div>
+          <div class="grid-3 mt-6">
+            <div class="bv-card">
+              <div class="fw-600 fs-13 text-accent mb-4">狄里赫利问题</div>
+              <div class="fs-12p5 text-muted" style="line-height:1.5">给定边界电位值<br><span class="fs-12" style="font-family:'JetBrains Mono',monospace">&Phi;|<sub>boundary</sub> = f</span></div>
+            </div>
+            <div class="bv-card">
+              <div class="fw-600 fs-13 text-accent mb-4">诺依曼问题</div>
+              <div class="fs-12p5 text-muted" style="line-height:1.5">给定边界法向导数<br><span class="fs-12" style="font-family:'JetBrains Mono',monospace">\frac{\partial \Phi}{\partial n} = g</span></div>
+            </div>
+            <div class="bv-card">
+              <div class="fw-600 fs-13 text-accent mb-4">混合边值问题</div>
+              <div class="fs-12p5 text-muted" style="line-height:1.5">部分给电位，<br>部分给法向导数</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">2</span>镜像法</div>
+          <p>用镜像电荷替代导体表面感应电荷，使边界条件自动满足。</p>
+          <div class="callout"><strong>关键条件：</strong>镜像电荷必须位于场区之外（导体内部），且总电荷量为零。</div>
+          <div class="detail mt-4">
+            典型应用：点电荷与无限大接地导体平面、点电荷与接地导体球、线电荷与导体平面。
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">3</span>导体劈镜像法</div>
+          <p>对于夹角 &alpha; 的导体劈，仅当 <strong>&alpha; = &pi;/n</strong>（n为正整数）时，才能用有限个镜像电荷满足边界条件。</p>
+          <div class="callout warn"><strong>原因：</strong>电荷的多次反射需要在有限步内闭合，劈角必须是 &pi; 的整数分之一。</div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">4</span>分离变量法</div>
+          <p>系统化求解偏微分方程的经典方法：</p>
+          <div class="flex-wrap mt-8" style="display:flex;gap:6px;flex-wrap:wrap">
+            <span class="pill-academic">① 选择坐标系</span>
+            <span class="pill-academic">② 分离方程</span>
+            <span class="pill-academic">③ 求通解</span>
+            <span class="pill-academic">④ 确定系数</span>
+            <span class="pill-academic warm">⑤ 叠加得解</span>
+          </div>
+          <div class="detail mt-8">
+            适用于矩形、圆柱、球形等规则区域的静电场问题。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 4: 第四章 ===== -->
+    <section class="slide" data-title="第四章 恒定电流场"
+      data-objectives="掌握欧姆定律微分形式|理解电流连续性|掌握静电比拟">
+      <span class="kicker">Chapter 04</span>
+      <h2>恒定电流场</h2>
+      <p class="lead">电荷做定向运动形成的场，具有无旋性和无源性（无源区）。</p>
+
+      <div class="section-list">
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">1</span>恒定电流场方程</div>
+          <div class="grid-3 mt-4">
+            <div>
+              <div class="fw-600 fs-12 text-accent mb-4">欧姆定律</div>
+              <span class="formula-inline p-0 fs-12p5">J = &sigma;E</span>
+            </div>
+            <div>
+              <div class="fw-600 fs-12 text-accent mb-4">连续性方程</div>
+              <span class="formula-inline p-0 fs-12p5">&nabla;&middot;J = 0</span>
+            </div>
+            <div>
+              <div class="fw-600 fs-12 text-accent mb-4">无旋性</div>
+              <span class="formula-inline p-0 fs-12p5">&nabla;&times;E = 0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">2</span>电流连续性原理</div>
+          <p>流入任意闭合曲面的电流等于流出的电流，这是电荷守恒定律在恒定电流条件下的体现。</p>
+          <span class="formula-inline">∮<sub>S</sub> J&middot;dS = 0</span>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">3</span>边界条件</div>
+          <div class="grid-2 mt-4">
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">切向分量</div>
+              <span class="formula-inline p-0">E<sub>1t</sub> = E<sub>2t</sub></span>
+              <div class="text-detail mt-2">切向电场连续</div>
+            </div>
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">法向分量</div>
+              <span class="formula-inline p-0">J<sub>2n</sub> = J<sub>1n</sub></span>
+              <div class="text-detail mt-2">恒定时法向电流密度连续</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">4</span>功率损耗与静电比拟</div>
+          <div class="grid-2 mt-4">
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">功率损耗（焦耳热）</div>
+              <span class="formula-inline p-0">P = ∫<sub>V</sub> &sigma;|E|&sup2; dV</span>
+              <div class="text-detail mt-2">单位体积：p = &sigma;|E|&sup2;</div>
+            </div>
+            <div>
+              <div class="fw-600 fs-13 text-accent mb-4">静电比拟</div>
+              <span class="formula-inline p-0">\frac{G}{C} = \frac{\sigma}{\varepsilon}</span>
+              <div class="text-detail mt-2">电导与电容的类比</div>
+            </div>
+          </div>
+          <div class="callout mt-8"><strong>静电比拟：</strong>恒定电流场与无源区静电场具有相同数学形式，通过测量电容可间接测量电导。</div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">5</span>理想导电体</div>
+          <p>&sigma; &rarr; &infin; 时，内部不能存在恒定电场（E = 0），否则 J = &sigma;E &rarr; &infin;，物理上不可能。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 5: 第五章 ===== -->
+    <section class="slide" data-title="第五章 麦克斯韦方程组"
+      data-objectives="理解位移电流的物理意义">
+      <span class="kicker">Chapter 05</span>
+      <h2>麦克斯韦方程组</h2>
+      <p class="lead">电磁场理论的核心方程，完整描述了电场与磁场的相互关系。</p>
+
+      <div class="section-list">
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">1</span>麦克斯韦方程组概述</div>
+          <p>麦克斯韦方程组是电磁场理论的核心，完整描述了电磁场的基本规律，预言了电磁波的存在。</p>
+          <div class="callout"><strong>位移电流</strong>的引入是麦克斯韦最伟大的贡献之一，它使方程组在时变场中自洽。</div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">2</span>四个方程（微分形式）</div>
+          <div class="grid-2 mt-4">
+            <div class="eq-card" style="border-left:3px solid var(--accent)">
+              <div class="eq-card-label l-accent">第一方程 - 全电流定律</div>
+              <span class="formula-inline p-0 fs-13">\nabla \times \mathbf{H} = \mathbf{J} + \frac{\partial \mathbf{D}}{\partial t}</span>
+              <div class="eq-card-desc">传导电流和变化的电场都能产生磁场</div>
+            </div>
+            <div class="eq-card" style="border-left:3px solid var(--accent-2)">
+              <div class="eq-card-label l-accent-2">第二方程 - 电磁感应定律</div>
+              <span class="formula-inline p-0 fs-13">\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}</span>
+              <div class="eq-card-desc">变化的磁场能产生电场</div>
+            </div>
+            <div class="eq-card" style="border-left:3px solid var(--accent-3)">
+              <div class="eq-card-label l-accent-3">第三方程 - 磁通连续性</div>
+              <span class="formula-inline p-0 fs-13">&nabla;&middot;B = 0</span>
+              <div class="eq-card-desc">磁场无源，磁力线总是闭合曲线</div>
+            </div>
+            <div class="eq-card" style="border-left:3px solid #6b5ce7">
+              <div class="eq-card-label l-purple">第四方程 - 高斯定律</div>
+              <span class="formula-inline p-0 fs-13">&nabla;&middot;D = &rho;</span>
+              <div class="eq-card-desc">电荷以发散方式产生电场</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">3</span>积分形式</div>
+          <div class="grid-1 mt-4">
+            <div class="grid-2" style="gap:6px">
+              <span class="formula-inline p-0 fs-12">\oint_C \mathbf{H} \cdot d\mathbf{l} = \int_S \mathbf{J} \cdot d\mathbf{S} + \int_S \frac{\partial \mathbf{D}}{\partial t} \cdot d\mathbf{S}</span>
+              <span class="formula-inline p-0 fs-12">\oint_C \mathbf{E} \cdot d\mathbf{l} = -\int_S \frac{\partial \mathbf{B}}{\partial t} \cdot d\mathbf{S}</span>
+              <span class="formula-inline p-0 fs-12">∮<sub>S</sub> B&middot;dS = 0</span>
+              <span class="formula-inline p-0 fs-12">∮<sub>S</sub> D&middot;dS = ∫<sub>V</sub> &rho; dV</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">4</span>物理意义</div>
+          <p>变化的电场和变化的磁场彼此密切联系，相互激发，组成统一的电磁场整体。</p>
+          <div class="callout">
+            在无源区（&rho; = 0, J = 0），方程组预言了<strong>电磁波</strong>的存在。电磁波在真空中的传播速度等于光速，揭示了光的电磁本质。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 6: 麦克斯韦方程组专题 ===== -->
+    <section class="slide" data-title="麦克斯韦方程组专题"
+      data-objectives="对比微分与积分形式|理解每个方程的物理含义">
+      <span class="kicker">Special Topic</span>
+      <h2>麦克斯韦方程组 &mdash; 核心公式对照</h2>
+      <p class="lead">微分形式描述局部性质，积分形式描述整体性质，两者通过高斯定理和旋度定理相互转换。</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="maxwell-eq-group">
+          <h4>第一方程</h4>
+          <div class="eq-name">推广的全电流定律</div>
+          <div class="eq-diff">\nabla \times \mathbf{H} = \mathbf{J} + \frac{\partial \mathbf{D}}{\partial t}</div>
+          <div class="eq-integ">\oint_C \mathbf{H} \cdot d\mathbf{l} = \int_S \mathbf{J} \cdot d\mathbf{S} + \int_S \frac{\partial \mathbf{D}}{\partial t} \cdot d\mathbf{S}</div>
+          <div class="eq-meaning">传导电流和变化的电场都能产生磁场。<br>磁场的旋度源包括传导电流密度 J 和位移电流密度 ∂D/∂t。</div>
+        </div>
+
+        <div class="maxwell-eq-group">
+          <h4>第二方程</h4>
+          <div class="eq-name">推广的电磁感应定律</div>
+          <div class="eq-diff">\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}</div>
+          <div class="eq-integ">\oint_C \mathbf{E} \cdot d\mathbf{l} = -\int_S \frac{\partial \mathbf{B}}{\partial t} \cdot d\mathbf{S}</div>
+          <div class="eq-meaning">变化的磁场能产生电场。<br>电场的旋度源是变化的磁感应强度。</div>
+        </div>
+
+        <div class="maxwell-eq-group">
+          <h4>第三方程</h4>
+          <div class="eq-name">磁通连续性原理</div>
+          <div class="eq-diff">&nabla;&middot;B = 0</div>
+          <div class="eq-integ">∮<sub>S</sub> B&middot;dS = 0</div>
+          <div class="eq-meaning">磁场是无源场，磁力线总是闭合曲线。不存在磁单极子。</div>
+        </div>
+
+        <div class="maxwell-eq-group">
+          <h4>第四方程</h4>
+          <div class="eq-name">高斯定律</div>
+          <div class="eq-diff">&nabla;&middot;D = &rho;</div>
+          <div class="eq-integ">∮<sub>S</sub> D&middot;dS = ∫<sub>V</sub> &rho; dV</div>
+          <div class="eq-meaning">电荷以发散的方式产生电场。<br>电位移矢量的散度等于自由电荷密度。</div>
+        </div>
+      </div>
+
+      <table class="maxwell-table mt-16" aria-label="麦克斯韦方程组微分与积分形式对照">
+        <caption class="sr-only">麦克斯韦方程组微分形式与积分形式对照表</caption>
+        <thead>
+          <tr>
+            <th scope="col">方程</th>
+            <th scope="col">微分形式</th>
+            <th scope="col">积分形式</th>
+            <th scope="col">物理含义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>全电流定律</td>
+            <td class="formula-cell">\nabla \times \mathbf{H} = \mathbf{J} + \frac{\partial \mathbf{D}}{\partial t}</td>
+            <td class="formula-cell">\oint_C \mathbf{H} \cdot d\mathbf{l} = \int_S \mathbf{J} \cdot d\mathbf{S} + \int_S \frac{\partial \mathbf{D}}{\partial t} \cdot d\mathbf{S}</td>
+            <td>传导电流和变化电场产生磁场</td>
+          </tr>
+          <tr>
+            <td>电磁感应定律</td>
+            <td class="formula-cell">\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}</td>
+            <td class="formula-cell">\oint_C \mathbf{E} \cdot d\mathbf{l} = -\int_S \frac{\partial \mathbf{B}}{\partial t} \cdot d\mathbf{S}</td>
+            <td>变化磁场产生电场</td>
+          </tr>
+          <tr>
+            <td>磁通连续性</td>
+            <td class="formula-cell">&nabla;&middot;B = 0</td>
+            <td class="formula-cell">∮<sub>S</sub> B&middot;dS = 0</td>
+            <td>磁场无源，磁力线闭合</td>
+          </tr>
+          <tr>
+            <td>高斯定律</td>
+            <td class="formula-cell">&nabla;&middot;D = &rho;</td>
+            <td class="formula-cell">∮<sub>S</sub> D&middot;dS = ∫<sub>V</sub> &rho; dV</td>
+            <td>电荷产生电场</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top:16px;text-align:center">
+        <strong>核心思想：</strong>变化的电场与变化的磁场彼此不是孤立的，它们永远密切地联系在一起，相互激发，组成统一的电磁场整体。电磁波在真空中的传播速度等于光速。
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 7: 总结与考试重点 ===== -->
+    <section class="slide full" data-title="总结与考试重点"
+      data-objectives="">
+      <span class="kicker">Summary</span>
+      <h2 style="font-size:32px;margin-bottom:10px">总结与考试重点</h2>
+      <p class="lead center max-w-640" style="margin-bottom:24px">五大章节知识体系一览 &mdash; 备考核心要点</p>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h4>第一章 矢量分析</h4>
+          <ul>
+            <li>&nabla; 算符的三种运算：梯度、散度、旋度</li>
+            <li>高斯散度定理与斯托克斯旋度定理</li>
+            <li>亥姆霍兹定理：矢量场由散度和旋度唯一确定</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>第二章 静电场</h4>
+          <ul>
+            <li>高斯定律：&nabla;&middot;E = &rho;/&epsilon;&#8320;</li>
+            <li>边界条件：E<sub>1t</sub> = E<sub>2t</sub>，D<sub>2n</sub> - D<sub>1n</sub> = &rho;<sub>s</sub></li>
+            <li>电场能量密度：w = &frac12;&epsilon;|E|&sup2;</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>第三章 边值问题</h4>
+          <ul>
+            <li>镜像法：镜像电荷必须在场区之外</li>
+            <li>导体劈：&alpha; = &pi;/n（n为正整数）</li>
+            <li>分离变量法五步法</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>第四章 恒定电流场</h4>
+          <ul>
+            <li>欧姆定律 J = &sigma;E，连续性 &nabla;&middot;J = 0</li>
+            <li>静电比拟：G/C = \frac{\sigma}{\varepsilon}</li>
+            <li>功率损耗：P = ∫ &sigma;|E|&sup2; dV</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-24">
+        <div class="callout text-center max-w-780" style="margin:0 auto">
+          <strong>考试高频考点：</strong>熟练掌握 &nabla; 运算 &bull; 记忆麦克斯韦方程组微分/积分形式 &bull; 掌握边界条件应用 &bull; 理解镜像法与分离变量法
+        </div>
+      </div>
+
+      <div class="exam-list mt-20">
+        <div class="exam-item">
+          <span class="num">1</span>
+          <span class="text">熟练掌握哈密顿算符 &nabla; 的三种运算（梯度、散度、旋度）</span>
+        </div>
+        <div class="exam-item">
+          <span class="num">2</span>
+          <span class="text">理解并记忆麦克斯韦方程组的微分和积分形式</span>
+        </div>
+        <div class="exam-item">
+          <span class="num">3</span>
+          <span class="text">掌握静电场和恒定电流场的边界条件</span>
+        </div>
+        <div class="exam-item">
+          <span class="num">4</span>
+          <span class="text">理解镜像法的原理和应用条件</span>
+        </div>
+        <div class="exam-item">
+          <span class="num">5</span>
+          <span class="text">掌握分离变量法的求解步骤</span>
+        </div>
+        <div class="exam-item">
+          <span class="num">6</span>
+          <span class="text">理解静电比拟的概念和应用</span>
+        </div>
+        <div class="exam-item">
+          <span class="num">7</span>
+          <span class="text">掌握电场能量密度和总能量的计算</span>
+        </div>
+        <div class="exam-item">
+          <span class="num">8</span>
+          <span class="text">掌握恒定电流场功率损耗计算</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Nav arrows -->
+<div class="nav-arrows">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" title="上一页 (←)" aria-label="上一页">&#8592;</button>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)" title="下一页 (→)" aria-label="下一页">&#8594;</button>
+</div>
+
+<!-- Fix 7: Back-to-top button -->
+<button class="back-to-top" id="backToTop" aria-label="返回顶部" title="返回顶部">&#8593;</button>
+
+<!-- Fix 7: Slide TOC button -->
+<button class="slide-toc-btn" id="slideTocBtn" aria-label="打开目录导航" title="目录导航">&#9776;</button>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var current = 0;
+  var lastDir = 1;
+  var isAnimating = false;
+  var ANIM_DURATION = 250;
+
+  // Detect reduced motion preference
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Fix 4: localStorage key for objectives
+  var LS_KEY_OBJECTIVES = 'em-field-objectives';
+  var LS_KEY_VISITED = 'em-field-visited';
+
+  function loadObjectivesState(){
+    try { return JSON.parse(localStorage.getItem(LS_KEY_OBJECTIVES)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveObjectivesState(state){
+    try { localStorage.setItem(LS_KEY_OBJECTIVES, JSON.stringify(state)); }
+    catch(e){}
+  }
+  function loadVisitedState(){
+    try { return JSON.parse(localStorage.getItem(LS_KEY_VISITED)) || []; }
+    catch(e){ return []; }
+  }
+  function saveVisitedState(arr){
+    try { localStorage.setItem(LS_KEY_VISITED, JSON.stringify(arr)); }
+    catch(e){}
+  }
+
+  var objectivesState = loadObjectivesState();
+  var visitedSlides = loadVisitedState();
+  // Mark slide 0 as visited on load
+  if(visitedSlides.indexOf(0) === -1){ visitedSlides.push(0); saveVisitedState(visitedSlides); }
+
+  // Build sidebar nav
+  var nav = document.getElementById('sidebarNav');
+  var titles = [];
+  slides.forEach(function(s,i){
+    titles.push(s.getAttribute('data-title')||('Slide '+(i+1)));
+    var item = document.createElement('div');
+    item.className = 'sidebar-nav-item';
+    item.setAttribute('tabindex','0');
+    item.setAttribute('role','button');
+    item.setAttribute('aria-label','导航到: ' + titles[i]);
+    item.innerHTML = '<span class="num">'+i+'</span><span>'+titles[i]+'</span>';
+    item.onclick = function(){ goTo(i); };
+    item.onkeydown = function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); goTo(i); }
+    };
+    nav.appendChild(item);
+  });
+
+  function updateGlobalProgress(){
+    var totalObjectives = 0;
+    var doneObjectives = 0;
+    slides.forEach(function(s,i){
+      var objStr = s.getAttribute('data-objectives')||'';
+      if(!objStr) return;
+      objStr.split('|').forEach(function(o){
+        totalObjectives++;
+        var key = i + '|' + o.trim();
+        if(objectivesState[key]) doneObjectives++;
+      });
+    });
+    var visited = visitedSlides.length;
+    var el = document.getElementById('globalProgress');
+    if(el) el.innerHTML = '已访问 <strong>'+visited+'</strong> / '+total+' 页 &bull; 已完成 <strong>'+doneObjectives+'</strong> / '+totalObjectives+' 个目标';
+    // Update slide progress bar
+    var pf = document.getElementById('slideProgressFill');
+    if(pf) pf.style.width = ((current+1)/total*100).toFixed(1)+'%';
+    var sp = document.getElementById('slideProgress');
+    if(sp){ sp.setAttribute('aria-valuenow', current+1); }
+  }
+
+  function goTo(idx, dir){
+    if(idx<0||idx>=total) return;
+    if(isAnimating) return;
+    if(idx === current) return;
+    if(dir !== undefined) lastDir = dir;
+
+    var prevIdx = current;
+    var animDir = lastDir >= 0 ? 1 : -1;
+
+    if(prefersReducedMotion){
+      // No animation - instant switch
+      slides[current].classList.remove('active','anim-left','anim-right','anim-exit-left','anim-exit-right');
+      current = idx;
+      slides[current].classList.add('active');
+      finishTransition();
+    } else {
+      isAnimating = true;
+      // Exit animation on current slide
+      var exitClass = animDir >= 0 ? 'anim-exit-left' : 'anim-exit-right';
+      slides[current].classList.add(exitClass);
+
+      setTimeout(function(){
+        slides[prevIdx].classList.remove('active','anim-left','anim-right','anim-exit-left','anim-exit-right');
+        current = idx;
+        // Enter animation on new slide
+        var enterClass = animDir >= 0 ? 'anim-right' : 'anim-left';
+        slides[current].classList.add('active', enterClass);
+        finishTransition();
+        setTimeout(function(){ isAnimating = false; }, ANIM_DURATION);
+      }, ANIM_DURATION);
+    }
+  }
+
+  function finishTransition(){
+    // Update sidebar
+    var items = nav.querySelectorAll('.sidebar-nav-item');
+    items.forEach(function(it,i){
+      it.classList.toggle('active', i===current);
+      it.setAttribute('aria-current', i===current ? 'page' : 'false');
+    });
+    // Update objectives
+    updateObjectives();
+    // Update progress
+    var pct = ((current+1)/total*100).toFixed(1);
+    document.getElementById('progressFill').style.width = pct+'%';
+    document.getElementById('progressLabel').textContent = 'Slide '+(current+1)+' / '+total;
+    document.getElementById('pageIndicator').textContent = (current+1)+' / '+total;
+    // Update nav buttons
+    document.getElementById('prevBtn').classList.toggle('disabled', current===0);
+    document.getElementById('nextBtn').classList.toggle('disabled', current===total-1);
+    // Scroll sidebar active into view
+    if(items[current]) items[current].scrollIntoView({behavior:'smooth',block:'nearest'});
+    // Track visited
+    if(visitedSlides.indexOf(current) === -1){ visitedSlides.push(current); saveVisitedState(visitedSlides); }
+    // Update global progress
+    updateGlobalProgress();
+    // Update back-to-top visibility
+    updateBackToTop();
+  }
+
+  // Fix 4: Update objectives with checkbox interaction and localStorage
+  function updateObjectives(){
+    var objStr = slides[current].getAttribute('data-objectives')||'';
+    var container = document.getElementById('objectivesContainer');
+    container.innerHTML = '';
+    if(!objStr){
+      container.innerHTML = '<div class="objective-item" style="opacity:.5;cursor:default">当前页面无特定学习目标</div>';
+      return;
+    }
+    objStr.split('|').forEach(function(o){
+      var key = current + '|' + o.trim();
+      var isDone = !!objectivesState[key];
+      var d = document.createElement('div');
+      d.className = 'objective-item' + (isDone ? ' done' : '');
+      d.setAttribute('tabindex','0');
+      d.setAttribute('role','checkbox');
+      d.setAttribute('aria-checked', isDone ? 'true' : 'false');
+      d.setAttribute('aria-label', o.trim() + (isDone ? ' (已完成)' : ' (未完成)'));
+      d.textContent = o.trim();
+      d.onclick = function(){
+        objectivesState[key] = !objectivesState[key];
+        saveObjectivesState(objectivesState);
+        d.classList.toggle('done');
+        var nowDone = d.classList.contains('done');
+        d.setAttribute('aria-checked', nowDone ? 'true' : 'false');
+        d.setAttribute('aria-label', o.trim() + (nowDone ? ' (已完成)' : ' (未完成)'));
+        updateGlobalProgress();
+      };
+      d.onkeydown = function(e){
+        if(e.key==='Enter'||e.key===' '){ e.preventDefault(); d.onclick(); }
+      };
+      container.appendChild(d);
+    });
+    updateGlobalProgress();
+  }
+
+  function navigate(dir){
+    goTo(current+dir, dir);
+  }
+  window.navigate = navigate;
+
+  // Fix 1: Keyboard navigation with Escape and Tab support
+  document.addEventListener('keydown', function(e){
+    // Escape closes mobile menu
+    if(e.key==='Escape'){
+      if(sidebar.classList.contains('open')){
+        closeMenu();
+        hamburger.focus();
+        return;
+      }
+    }
+
+    // Skip nav link handles Tab naturally, no special override needed
+    // Only intercept arrow keys and space when not focused on an interactive element
+    var tag = e.target.tagName;
+    var isInteractive = (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || tag === 'BUTTON' || e.target.getAttribute('role') === 'checkbox');
+
+    if(!isInteractive){
+      if(e.key==='ArrowRight'||e.key==='ArrowDown'){
+        e.preventDefault(); navigate(1);
+      } else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){
+        e.preventDefault(); navigate(-1);
+      } else if(e.key==='Home'){
+        e.preventDefault(); goTo(0, -1);
+      } else if(e.key==='End'){
+        e.preventDefault(); goTo(total-1, 1);
+      }
+    }
+  });
+
+  // Touch swipe
+  var touchStartX = 0;
+  document.addEventListener('touchstart',function(e){ touchStartX=e.changedTouches[0].screenX; },{passive:true});
+  document.addEventListener('touchend',function(e){
+    var dx = e.changedTouches[0].screenX - touchStartX;
+    if(Math.abs(dx)>50){ navigate(dx<0?1:-1); }
+  },{passive:true});
+
+  // Hamburger menu
+  var hamburger = document.getElementById('hamburgerBtn');
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('mobileOverlay');
+  function toggleMenu(){
+    hamburger.classList.toggle('active');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+    // Set aria-expanded
+    var isOpen = sidebar.classList.contains('open');
+    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    sidebar.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    // Trap focus in sidebar when open on mobile
+    if(isOpen){
+      setTimeout(function(){
+        var firstItem = sidebar.querySelector('.sidebar-nav-item');
+        if(firstItem) firstItem.focus();
+      }, 100);
+    }
+  }
+  function closeMenu(){
+    hamburger.classList.remove('active');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+    hamburger.setAttribute('aria-expanded', 'false');
+    sidebar.setAttribute('aria-hidden', 'true');
+  }
+  hamburger.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', toggleMenu);
+  hamburger.setAttribute('aria-expanded', 'false');
+  sidebar.setAttribute('aria-hidden', window.innerWidth > 900 ? 'false' : 'true');
+  nav.addEventListener('click', function(){
+    if(window.innerWidth <= 900){ closeMenu(); }
+  });
+
+  // Fix 1: Skip nav link functionality
+  document.getElementById('skipNav').addEventListener('click', function(e){
+    e.preventDefault();
+    var slideArea = document.getElementById('slideArea');
+    slideArea.setAttribute('tabindex','-1');
+    slideArea.focus();
+  });
+
+  // Fix 7: Back-to-top button
+  var backToTop = document.getElementById('backToTop');
+  function updateBackToTop(){
+    var slideEl = slides[current];
+    var needTop = slideEl.scrollHeight > slideEl.clientHeight + 100;
+    backToTop.classList.toggle('show', needTop);
+  }
+  backToTop.addEventListener('click', function(){
+    slides[current].scrollTo({top:0, behavior: prefersReducedMotion ? 'auto' : 'smooth'});
+  });
+
+  // Fix 7: Slide TOC panel
+  var tocBtn = document.getElementById('slideTocBtn');
+  var tocPanel = null;
+  function toggleToc(){
+    if(tocPanel){
+      tocPanel.remove();
+      tocPanel = null;
+      return;
+    }
+    tocPanel = document.createElement('div');
+    tocPanel.style.cssText = 'position:fixed;top:60px;right:16px;z-index:50;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:8px 0;min-width:200px;max-height:60vh;overflow-y:auto';
+    titles.forEach(function(t,i){
+      var row = document.createElement('div');
+      row.style.cssText = 'padding:8px 16px;font-size:13px;cursor:pointer;transition:background .15s;color:' + (i===current ? 'var(--accent);font-weight:600' : 'var(--text-2)');
+      row.textContent = t;
+      row.onmouseenter = function(){ row.style.background = 'rgba(45,125,110,.06)'; };
+      row.onmouseleave = function(){ row.style.background = 'none'; };
+      row.onclick = function(){ goTo(i); tocPanel.remove(); tocPanel = null; };
+      tocPanel.appendChild(row);
+    });
+    document.body.appendChild(tocPanel);
+    // Close on click outside
+    setTimeout(function(){
+      function closeToc(ev){
+        if(!tocPanel || tocPanel.contains(ev.target) || ev.target === tocBtn) return;
+        tocPanel.remove(); tocPanel = null;
+        document.removeEventListener('click', closeToc);
+      }
+      document.addEventListener('click', closeToc);
+    }, 10);
+  }
+  tocBtn.addEventListener('click', toggleToc);
+
+  // Init
+  goTo(0);
+
+  // Fix 7: Hide loading overlay after init
+  setTimeout(function(){
+    var lo = document.getElementById('loadingOverlay');
+    if(lo){ lo.classList.add('hide'); setTimeout(function(){ lo.style.display='none'; }, 500); }
+  }, 300);
+})();
+</script>
+
+<script>
+// KaTeX post-processing: convert formula text to rendered math
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof katex === 'undefined') return;
+
+  function htmlToTex(el){
+    var html = el.innerHTML;
+
+    // If element already contains LaTeX \commands, extract text directly
+    if(/\\(frac|nabla|partial|int|oint|cdot|times|left|right|text|mathbf)/.test(html)) {
+      var tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      return (tmp.textContent || '').replace(/\s+/g, ' ').trim();
+    }
+
+    // Step 1: Convert <sub> and <sup> to LaTeX before any text processing
+    // Handle nested: e.g. <sub>free</sub>, <sub>0</sub>, <sub>1t</sub>, <sub>S</sub>
+    html = html.replace(/<sub>(.*?)<\/sub>/g, '_{$1}');
+    html = html.replace(/<sup>(.*?)<\/sup>/g, '^{$1}');
+
+    // Step 2: Convert compound HTML entities FIRST (before single-entity replacements)
+    // Order matters: multi-char entities before single-char ones
+    html = html.replace(/&epsilon;&#8320;/g, '\\varepsilon_0');   // ε₀
+    html = html.replace(/&epsilon;/g, '\\varepsilon');
+    html = html.replace(/&middot;/g, ' \\cdot ');
+    html = html.replace(/&times;/g, ' \\times ');
+    html = html.replace(/&nabla;/g, '\\nabla');
+    html = html.replace(/&part;/g, '\\partial');
+    html = html.replace(/&rho;/g, '\\rho');
+    html = html.replace(/&sigma;/g, '\\sigma');
+    html = html.replace(/&theta;/g, '\\theta');
+    html = html.replace(/&alpha;/g, '\\alpha');
+    html = html.replace(/&pi;/g, '\\pi');
+    html = html.replace(/&infin;/g, '\\infty');
+    html = html.replace(/&frac12;/g, '\\frac{1}{2}');
+    html = html.replace(/&sup2;/g, '^2');
+    html = html.replace(/&rarr;/g, '\\rightarrow');
+    html = html.replace(/&larr;/g, '\\leftarrow');
+    html = html.replace(/&hellip;/g, '\\cdots');
+
+    // Step 3: Convert Unicode symbols (in order of length to avoid partial matches)
+    // Integral/contour symbols (multi-char or special)
+    html = html.replace(/∮/g, '\\oint');
+    html = html.replace(/∫/g, '\\int');
+    // Greek letters
+    html = html.replace(/ε/g, '\\varepsilon');
+    html = html.replace(/ρ/g, '\\rho');
+    html = html.replace(/σ/g, '\\sigma');
+    html = html.replace(/θ/g, '\\theta');
+    html = html.replace(/α/g, '\\alpha');
+    html = html.replace(/π/g, '\\pi');
+    // Operators
+    html = html.replace(/∇/g, '\\nabla');
+    html = html.replace(/∂/g, '\\partial');
+    html = html.replace(/∞/g, '\\infty');
+    html = html.replace(/·/g, ' \\cdot ');
+    html = html.replace(/×/g, ' \\times ');
+    html = html.replace(/½/g, '\\frac{1}{2}');
+    html = html.replace(/→/g, '\\rightarrow');
+    html = html.replace(/←/g, '\\leftarrow');
+
+    // Step 4: Fix LaTeX commands followed by letter without space (KaTeX needs space)
+    html = html.replace(/\\partial([a-zA-Z])/g, '\\partial $1');
+    html = html.replace(/\\nabla([a-zA-Z])/g, '\\nabla $1');
+    html = html.replace(/\\sigma([a-zA-Z])/g, '\\sigma $1');
+
+    // Step 5: Clean up whitespace around operators
+    html = html.replace(/\s+/g, ' ').trim();
+    // Remove surrounding spaces
+    html = html.replace(/^\s+|\s+$/g, '');
+
+    // Step 6: Remove any remaining HTML tags and get clean text
+    var tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    var text = tmp.textContent || tmp.innerText || '';
+    text = text.replace(/\s+/g, ' ').trim();
+
+    return text;
+  }
+
+  // Process formula-inline and formula cells
+  var formulaEls = document.querySelectorAll('.formula-inline, .formula-cell, .eq-diff, .eq-integ');
+  formulaEls.forEach(function(el){
+    try {
+      var tex = htmlToTex(el);
+      if(tex && tex.length > 1) {
+        // Use displayMode for elements with \frac (fractions need larger rendering)
+        var isDisplay = /\\frac/.test(tex);
+        katex.render(tex, el, { throwOnError: false, displayMode: isDisplay });
+        if(isDisplay) el.classList.add('katex-display');
+      }
+    } catch(e) {
+      // Fix 3: Fallback - add error class for styling, leave original text visible
+      el.classList.add('katex-error');
+      el.setAttribute('title', '公式渲染失败: ' + e.message);
+    }
+  });
+});
+</script>
+
+</body>
+</html>
