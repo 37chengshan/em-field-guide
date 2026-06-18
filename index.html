@@ -874,20 +874,20 @@ html,body{
         <!-- ===== 例题 ===== -->
         <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
           <div class="sc-title" style="color:var(--accent-2)">✏ 例题 1.1 — 矢量点积与叉积</div>
-          <p><strong>题目：</strong>已知矢量 <span class="formula-inline">A = 3\hat{x} + 2\hat{y} - \hat{z}</span>，<span class="formula-inline">B = \hat{x} - \hat{y} + 2\hat{z}</span>，求 A·B 和 A×B。</p>
+          <p><strong>题目：</strong>已知矢量 A = (3, 2, -1)，B = (1, -1, 2)，求 A·B 和 A×B。</p>
           <div class="callout"><strong>解题思路：</strong>点积用对应分量相乘再求和；叉积用行列式展开。</div>
           <p><strong>解答：</strong></p>
           <p>点积：<span class="formula-inline">A \cdot B = (3)(1) + (2)(-1) + (-1)(2) = 3 - 2 - 2 = -1</span></p>
-          <p>叉积：<span class="formula-inline">A \times B = \begin{vmatrix} \hat{x} & \hat{y} & \hat{z} \\ 3 & 2 & -1 \\ 1 & -1 & 2 \end{vmatrix} = 3\hat{x} - 7\hat{y} - 5\hat{z}</span></p>
+          <p>叉积：按行列式展开得 <span class="formula-inline">A \times B = 3\hat{x} - 7\hat{y} - 5\hat{z}</span></p>
         </div>
 
         <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
           <div class="sc-title" style="color:var(--accent-2)">✏ 例题 1.2 — 散度计算</div>
-          <p><strong>题目：</strong>求矢量场 <span class="formula-inline">\mathbf{F} = x^2\hat{x} + 2y\hat{y} + z\hat{z}</span> 在点 (1,2,3) 处的散度。</p>
+          <p><strong>题目：</strong>求矢量场 F = (x², 2y, z) 在点 (1,2,3) 处的散度。</p>
           <div class="callout"><strong>解题思路：</strong>散度是对各分量分别求偏导再求和。</div>
           <p><strong>解答：</strong></p>
-          <p><span class="formula-inline">\nabla \cdot \mathbf{F} = \frac{\partial(x^2)}{\partial x} + \frac{\partial(2y)}{\partial y} + \frac{\partial(z)}{\partial z} = 2x + 2 + 1 = 2x + 3</span></p>
-          <p>在点 (1,2,3) 处：<span class="formula-inline">\nabla \cdot \mathbf{F} = 2(1) + 3 = 5</span></p>
+          <p><span class="formula-inline">\nabla \cdot F = \frac{\partial(x^2)}{\partial x} + \frac{\partial(2y)}{\partial y} + \frac{\partial(z)}{\partial z} = 2x + 2 + 1 = 2x + 3</span></p>
+          <p>在点 (1,2,3) 处：<span class="formula-inline">\nabla \cdot F = 2(1) + 3 = 5</span></p>
         </div>
       </div>
     </section>
@@ -975,7 +975,8 @@ html,body{
           <p><strong>题目：</strong>无限长均匀带电直线，线电荷密度为 τ，求距直线 r 处的电场强度。</p>
           <div class="callout"><strong>解题思路：</strong>利用对称性，选圆柱面为高斯面，应用高斯定律积分形式。</div>
           <p><strong>解答：</strong></p>
-          <p>由对称性，电场沿径向：<span class="formula-inline">\oint_S \mathbf{E} \cdot d\mathbf{S} = E \cdot 2\pi r L = \frac{\tau L}{\varepsilon_0}</span></p>
+          <p>由对称性，电场沿径向：</p>
+          <p><span class="formula-inline">\oint_S E \cdot dS = E \cdot 2\pi r L = \frac{\tau L}{\varepsilon_0}</span></p>
           <p>解得：<span class="formula-inline">E = \frac{\tau}{2\pi\varepsilon_0 r}</span>，方向沿径向向外。</p>
         </div>
 
@@ -1054,14 +1055,16 @@ html,body{
           <div class="callout"><strong>解题思路：</strong>在导体平面下方 d 处放置镜像电荷 -q，使平面电位为零。</div>
           <p><strong>解答：</strong></p>
           <p>镜像电荷：在 (0,0,-d) 处放置 -q</p>
-          <p><span class="formula-inline">\Phi(x,y,z) = \frac{q}{4\pi\varepsilon_0}\left(\frac{1}{\sqrt{x^2+y^2+(z-d)^2}} - \frac{1}{\sqrt{x^2+y^2+(z+d)^2}}\right)</span></p>
+          <p><span class="formula-inline">\Phi = \frac{q}{4\pi\varepsilon_0} \left( \frac{1}{r_1} - \frac{1}{r_2} \right)</span></p>
+          <p class="text-detail">其中 r₁ 是到场点到原电荷的距离，r₂ 是到场点到镜像电荷的距离。</p>
         </div>
 
         <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
           <div class="sc-title" style="color:var(--accent-2)">✏ 例题 3.2 — 镜像法验证</div>
           <p><strong>题目：</strong>验证例题 3.1 中导体平面 (z=0) 上电位为零。</p>
           <p><strong>解答：</strong></p>
-          <p>令 z=0：<span class="formula-inline">\Phi(x,y,0) = \frac{q}{4\pi\varepsilon_0}\left(\frac{1}{\sqrt{x^2+y^2+d^2}} - \frac{1}{\sqrt{x^2+y^2+d^2}}\right) = 0</span> ✓</p>
+          <p>令 z=0，此时 r₁ = r₂，因此：</p>
+          <p><span class="formula-inline">\Phi(x,y,0) = \frac{q}{4\pi\varepsilon_0} \left( \frac{1}{r_1} - \frac{1}{r_1} \right) = 0</span> ✓</p>
         </div>
       </div>
     </section>
@@ -1232,13 +1235,13 @@ html,body{
       <!-- ===== 例题 ===== -->
       <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
         <div class="sc-title" style="color:var(--accent-2)">✏ 例题 5.1 — 验证麦克斯韦方程组</div>
-        <p><strong>题目：</strong>已知时谐电磁场 <span class="formula-inline">\mathbf{E} = E_0 \sin(kz - \omega t)\hat{x}</span>，<span class="formula-inline">\mathbf{B} = B_0 \sin(kz - \omega t)\hat{y}</span>，验证其满足真空中的麦克斯韦方程组。</p>
+        <p><strong>题目：</strong>已知平面波 E = E₀ sin(kz - ωt) x̂，B = B₀ sin(kz - ωt) ŷ，验证满足真空中的麦克斯韦方程组。</p>
         <div class="callout"><strong>解题思路：</strong>分别计算两个旋度方程和两个散度方程，验证等式成立。</div>
         <p><strong>解答：</strong></p>
-        <p>① <span class="formula-inline">\nabla \cdot \mathbf{E} = \frac{\partial E_x}{\partial x} = 0</span> ✓（无源区 ρ=0）</p>
-        <p>② <span class="formula-inline">\nabla \cdot \mathbf{B} = \frac{\partial B_y}{\partial y} = 0</span> ✓</p>
-        <p>③ <span class="formula-inline">\nabla \times \mathbf{E} = -\frac{\partial E_x}{\partial z}\hat{y} = -kE_0\cos(kz-\omega t)\hat{y}</span></p>
-        <p>而 <span class="formula-inline">-\frac{\partial \mathbf{B}}{\partial t} = \omega B_0\cos(kz-\omega t)\hat{y}</span></p>
+        <p>① <span class="formula-inline">\nabla \cdot E = \frac{\partial E_x}{\partial x} = 0</span> ✓（无源区 ρ=0）</p>
+        <p>② <span class="formula-inline">\nabla \cdot B = \frac{\partial B_y}{\partial y} = 0</span> ✓</p>
+        <p>③ <span class="formula-inline">\nabla \times E = -\frac{\partial E_x}{\partial z}\hat{y} = -kE_0\cos(kz-\omega t)\hat{y}</span></p>
+        <p>而 <span class="formula-inline">-\frac{\partial B}{\partial t} = \omega B_0\cos(kz-\omega t)\hat{y}</span></p>
         <p>需满足 <span class="formula-inline">kE_0 = \omega B_0</span>，即 <span class="formula-inline">\frac{E_0}{B_0} = \frac{\omega}{k} = c</span> ✓</p>
       </div>
     </section>
@@ -1767,7 +1770,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var html = el.innerHTML;
 
     // If element already contains LaTeX \commands, extract text directly
-    if(/\\(frac|nabla|partial|int|oint|cdot|times|left|right|text|mathbf)/.test(html)) {
+    if(/\\(frac|nabla|partial|int|oint|cdot|times|left|right|text|mathbf|hat|begin|end|sqrt|varepsilon|over)/.test(html)) {
       var tmp = document.createElement('div');
       tmp.innerHTML = html;
       return (tmp.textContent || '').replace(/\s+/g, ' ').trim();
@@ -1789,6 +1792,7 @@ document.addEventListener('DOMContentLoaded', function(){
     html = html.replace(/&part;/g, '\\partial');
     html = html.replace(/&rho;/g, '\\rho');
     html = html.replace(/&sigma;/g, '\\sigma');
+    html = html.replace(/&Phi;/g, '\\Phi');
     html = html.replace(/&theta;/g, '\\theta');
     html = html.replace(/&alpha;/g, '\\alpha');
     html = html.replace(/&pi;/g, '\\pi');
