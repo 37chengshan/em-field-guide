@@ -8,7 +8,15 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <style>
+/* ========================================
+   电磁场知识总结 — 样式表
+   风格：Warm Paper 学术风格
+   色彩：米色背景 + 深棕文字 + 绿色强调
+   字体：Playfair Display(标题) / Inter(正文) / JetBrains Mono(公式)
+   ======================================== */
+
 /* ===== CSS Reset & Base ===== */
+/* 重置所有元素的盒模型和间距，确保跨浏览器一致性 */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
@@ -809,7 +817,8 @@ html,body{
       </div>
     </section>
 
-    <!-- ===== SLIDE 1: 第一章 ===== -->
+    <!-- ===== SLIDE 1: 第一章 矢量分析与场论基础 ===== -->
+    <!-- 内容：场的概念、矢量运算、哈密顿算符、梯度/散度/旋度、通量/环量、散度定理/旋度定理 -->
     <section class="slide" data-title="第一章 矢量分析与场论基础"
       data-objectives="掌握哈密顿算符三种运算|理解散度定理与旋度定理">
       <span class="kicker">Chapter 01</span>
@@ -861,10 +870,30 @@ html,body{
             </div>
           </div>
         </div>
+
+        <!-- ===== 例题 ===== -->
+        <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
+          <div class="sc-title" style="color:var(--accent-2)">✏ 例题 1.1 — 矢量点积与叉积</div>
+          <p><strong>题目：</strong>已知矢量 <span class="formula-inline">A = 3\hat{x} + 2\hat{y} - \hat{z}</span>，<span class="formula-inline">B = \hat{x} - \hat{y} + 2\hat{z}</span>，求 A·B 和 A×B。</p>
+          <div class="callout"><strong>解题思路：</strong>点积用对应分量相乘再求和；叉积用行列式展开。</div>
+          <p><strong>解答：</strong></p>
+          <p>点积：<span class="formula-inline">A \cdot B = (3)(1) + (2)(-1) + (-1)(2) = 3 - 2 - 2 = -1</span></p>
+          <p>叉积：<span class="formula-inline">A \times B = \begin{vmatrix} \hat{x} & \hat{y} & \hat{z} \\ 3 & 2 & -1 \\ 1 & -1 & 2 \end{vmatrix} = 3\hat{x} - 7\hat{y} - 5\hat{z}</span></p>
+        </div>
+
+        <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
+          <div class="sc-title" style="color:var(--accent-2)">✏ 例题 1.2 — 散度计算</div>
+          <p><strong>题目：</strong>求矢量场 <span class="formula-inline">\mathbf{F} = x^2\hat{x} + 2y\hat{y} + z\hat{z}</span> 在点 (1,2,3) 处的散度。</p>
+          <div class="callout"><strong>解题思路：</strong>散度是对各分量分别求偏导再求和。</div>
+          <p><strong>解答：</strong></p>
+          <p><span class="formula-inline">\nabla \cdot \mathbf{F} = \frac{\partial(x^2)}{\partial x} + \frac{\partial(2y)}{\partial y} + \frac{\partial(z)}{\partial z} = 2x + 2 + 1 = 2x + 3</span></p>
+          <p>在点 (1,2,3) 处：<span class="formula-inline">\nabla \cdot \mathbf{F} = 2(1) + 3 = 5</span></p>
+        </div>
       </div>
     </section>
 
-    <!-- ===== SLIDE 2: 第二章 ===== -->
+    <!-- ===== SLIDE 2: 第二章 静电场 ===== -->
+    <!-- 内容：电场强度、电位、高斯定律、电介质、边界条件、导体等位体、静电场能量 -->
     <section class="slide" data-title="第二章 静电场"
       data-objectives="掌握电场强度与电位关系|理解高斯定律|掌握边界条件|计算电场能量">
       <span class="kicker">Chapter 02</span>
@@ -939,10 +968,30 @@ html,body{
             </div>
           </div>
         </div>
+
+        <!-- ===== 例题 ===== -->
+        <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
+          <div class="sc-title" style="color:var(--accent-2)">✏ 例题 2.1 — 高斯定律求电场</div>
+          <p><strong>题目：</strong>无限长均匀带电直线，线电荷密度为 τ，求距直线 r 处的电场强度。</p>
+          <div class="callout"><strong>解题思路：</strong>利用对称性，选圆柱面为高斯面，应用高斯定律积分形式。</div>
+          <p><strong>解答：</strong></p>
+          <p>由对称性，电场沿径向：<span class="formula-inline">\oint_S \mathbf{E} \cdot d\mathbf{S} = E \cdot 2\pi r L = \frac{\tau L}{\varepsilon_0}</span></p>
+          <p>解得：<span class="formula-inline">E = \frac{\tau}{2\pi\varepsilon_0 r}</span>，方向沿径向向外。</p>
+        </div>
+
+        <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
+          <div class="sc-title" style="color:var(--accent-2)">✏ 例题 2.2 — 平行板电容器</div>
+          <p><strong>题目：</strong>平行板电容器极板面积为 S，间距为 d，中间填充介电常数为 ε 的介质，求电容。</p>
+          <div class="callout"><strong>解题思路：</strong>设极板带电量 Q，用高斯定律求 D，再求 E，积分得电压 V，最后 C = Q/V。</div>
+          <p><strong>解答：</strong></p>
+          <p><span class="formula-inline">D = \frac{Q}{S}, \quad E = \frac{D}{\varepsilon} = \frac{Q}{\varepsilon S}, \quad V = Ed = \frac{Qd}{\varepsilon S}</span></p>
+          <p><span class="formula-inline">C = \frac{Q}{V} = \frac{\varepsilon S}{d}</span></p>
+        </div>
       </div>
     </section>
 
-    <!-- ===== SLIDE 3: 第三章 ===== -->
+    <!-- ===== SLIDE 3: 第三章 边值问题与求解方法 ===== -->
+    <!-- 内容：狄里赫利/诺依曼/混合边值问题、镜像法原理、导体劈镜像法、分离变量法 -->
     <section class="slide" data-title="第三章 边值问题与求解方法"
       data-objectives="理解镜像法原理与条件|掌握分离变量法步骤">
       <span class="kicker">Chapter 03</span>
@@ -959,7 +1008,7 @@ html,body{
             </div>
             <div class="bv-card">
               <div class="fw-600 fs-13 text-accent mb-4">诺依曼问题</div>
-              <div class="fs-12p5 text-muted" style="line-height:1.5">给定边界法向导数<br><span class="fs-12" style="font-family:'JetBrains Mono',monospace">\frac{\partial \Phi}{\partial n} = g</span></div>
+              <div class="fs-12p5 text-muted" style="line-height:1.5">给定边界法向导数<br><span class="formula-inline fs-12" style="font-family:'JetBrains Mono',monospace">\frac{\partial \Phi}{\partial n} = g</span></div>
             </div>
             <div class="bv-card">
               <div class="fw-600 fs-13 text-accent mb-4">混合边值问题</div>
@@ -971,7 +1020,7 @@ html,body{
         <div class="section-card">
           <div class="sc-title"><span class="idx">2</span>镜像法</div>
           <p>用镜像电荷替代导体表面感应电荷，使边界条件自动满足。</p>
-          <div class="callout"><strong>关键条件：</strong>镜像电荷必须位于场区之外（导体内部），且总电荷量为零。</div>
+          <div class="callout"><strong>关键条件：</strong>镜像电荷必须位于场区之外（导体内部），且满足边界条件。对于点电荷与接地导体平面，镜像电荷与原电荷等量异号。</div>
           <div class="detail mt-4">
             典型应用：点电荷与无限大接地导体平面、点电荷与接地导体球、线电荷与导体平面。
           </div>
@@ -997,10 +1046,28 @@ html,body{
             适用于矩形、圆柱、球形等规则区域的静电场问题。
           </div>
         </div>
+
+        <!-- ===== 例题 ===== -->
+        <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
+          <div class="sc-title" style="color:var(--accent-2)">✏ 例题 3.1 — 镜像法</div>
+          <p><strong>题目：</strong>点电荷 q 距接地导体平面为 d，求空间电位分布。</p>
+          <div class="callout"><strong>解题思路：</strong>在导体平面下方 d 处放置镜像电荷 -q，使平面电位为零。</div>
+          <p><strong>解答：</strong></p>
+          <p>镜像电荷：在 (0,0,-d) 处放置 -q</p>
+          <p><span class="formula-inline">\Phi(x,y,z) = \frac{q}{4\pi\varepsilon_0}\left(\frac{1}{\sqrt{x^2+y^2+(z-d)^2}} - \frac{1}{\sqrt{x^2+y^2+(z+d)^2}}\right)</span></p>
+        </div>
+
+        <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
+          <div class="sc-title" style="color:var(--accent-2)">✏ 例题 3.2 — 镜像法验证</div>
+          <p><strong>题目：</strong>验证例题 3.1 中导体平面 (z=0) 上电位为零。</p>
+          <p><strong>解答：</strong></p>
+          <p>令 z=0：<span class="formula-inline">\Phi(x,y,0) = \frac{q}{4\pi\varepsilon_0}\left(\frac{1}{\sqrt{x^2+y^2+d^2}} - \frac{1}{\sqrt{x^2+y^2+d^2}}\right) = 0</span> ✓</p>
+        </div>
       </div>
     </section>
 
-    <!-- ===== SLIDE 4: 第四章 ===== -->
+    <!-- ===== SLIDE 4: 第四章 恒定电流场 ===== -->
+    <!-- 内容：欧姆定律微分形式、电流连续性、边界条件、功率损耗、静电比拟、理想导电体 -->
     <section class="slide" data-title="第四章 恒定电流场"
       data-objectives="掌握欧姆定律微分形式|理解电流连续性|掌握静电比拟">
       <span class="kicker">Chapter 04</span>
@@ -1069,6 +1136,25 @@ html,body{
           <div class="sc-title"><span class="idx">5</span>理想导电体</div>
           <p>&sigma; &rarr; &infin; 时，内部不能存在恒定电场（E = 0），否则 J = &sigma;E &rarr; &infin;，物理上不可能。</p>
         </div>
+
+        <!-- ===== 例题 ===== -->
+        <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
+          <div class="sc-title" style="color:var(--accent-2)">✏ 例题 4.1 — 电流密度计算</div>
+          <p><strong>题目：</strong>铜导线截面积为 1mm²，通过电流 10A，铜的电导率 σ = 5.8×10⁷ S/m，求电流密度和电场强度。</p>
+          <div class="callout"><strong>解题思路：</strong>J = I/A，再用欧姆定律 J = σE 求 E。</div>
+          <p><strong>解答：</strong></p>
+          <p><span class="formula-inline">J = \frac{I}{A} = \frac{10}{1 \times 10^{-6}} = 10^7 \text{ A/m}^2</span></p>
+          <p><span class="formula-inline">E = \frac{J}{\sigma} = \frac{10^7}{5.8 \times 10^7} \approx 0.172 \text{ V/m}</span></p>
+        </div>
+
+        <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
+          <div class="sc-title" style="color:var(--accent-2)">✏ 例题 4.2 — 功率损耗</div>
+          <p><strong>题目：</strong>长 100m、截面积 1mm² 的铜导线，通过 10A 电流，求总功率损耗。</p>
+          <div class="callout"><strong>解题思路：</strong>先求电阻 R = L/(σA)，再用 P = I²R。</div>
+          <p><strong>解答：</strong></p>
+          <p><span class="formula-inline">R = \frac{L}{\sigma A} = \frac{100}{5.8 \times 10^7 \times 10^{-6}} \approx 0.172 \ \Omega</span></p>
+          <p><span class="formula-inline">P = I^2 R = 10^2 \times 0.172 = 17.2 \text{ W}</span></p>
+        </div>
       </div>
     </section>
 
@@ -1125,12 +1211,35 @@ html,body{
         </div>
 
         <div class="section-card">
-          <div class="sc-title"><span class="idx">4</span>物理意义</div>
+          <div class="sc-title"><span class="idx">4</span>本构关系</div>
+          <p>麦克斯韦方程组需配合本构关系才能完整求解：</p>
+          <div class="grid-3 mt-4">
+            <div class="callout"><strong>电介质：</strong><span class="formula-inline">D = \varepsilon E</span></div>
+            <div class="callout"><strong>磁介质：</strong><span class="formula-inline">B = \mu H</span></div>
+            <div class="callout"><strong>导体：</strong><span class="formula-inline">J = \sigma E</span></div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="sc-title"><span class="idx">5</span>物理意义</div>
           <p>变化的电场和变化的磁场彼此密切联系，相互激发，组成统一的电磁场整体。</p>
           <div class="callout">
             在无源区（&rho; = 0, J = 0），方程组预言了<strong>电磁波</strong>的存在。电磁波在真空中的传播速度等于光速，揭示了光的电磁本质。
           </div>
         </div>
+      </div>
+
+      <!-- ===== 例题 ===== -->
+      <div class="section-card" style="border:2px dashed var(--accent-2);background:#fffdf5">
+        <div class="sc-title" style="color:var(--accent-2)">✏ 例题 5.1 — 验证麦克斯韦方程组</div>
+        <p><strong>题目：</strong>已知时谐电磁场 <span class="formula-inline">\mathbf{E} = E_0 \sin(kz - \omega t)\hat{x}</span>，<span class="formula-inline">\mathbf{B} = B_0 \sin(kz - \omega t)\hat{y}</span>，验证其满足真空中的麦克斯韦方程组。</p>
+        <div class="callout"><strong>解题思路：</strong>分别计算两个旋度方程和两个散度方程，验证等式成立。</div>
+        <p><strong>解答：</strong></p>
+        <p>① <span class="formula-inline">\nabla \cdot \mathbf{E} = \frac{\partial E_x}{\partial x} = 0</span> ✓（无源区 ρ=0）</p>
+        <p>② <span class="formula-inline">\nabla \cdot \mathbf{B} = \frac{\partial B_y}{\partial y} = 0</span> ✓</p>
+        <p>③ <span class="formula-inline">\nabla \times \mathbf{E} = -\frac{\partial E_x}{\partial z}\hat{y} = -kE_0\cos(kz-\omega t)\hat{y}</span></p>
+        <p>而 <span class="formula-inline">-\frac{\partial \mathbf{B}}{\partial t} = \omega B_0\cos(kz-\omega t)\hat{y}</span></p>
+        <p>需满足 <span class="formula-inline">kE_0 = \omega B_0</span>，即 <span class="formula-inline">\frac{E_0}{B_0} = \frac{\omega}{k} = c</span> ✓</p>
       </div>
     </section>
 
@@ -1254,7 +1363,7 @@ html,body{
           <h4>第四章 恒定电流场</h4>
           <ul>
             <li>欧姆定律 J = &sigma;E，连续性 &nabla;&middot;J = 0</li>
-            <li>静电比拟：G/C = \frac{\sigma}{\varepsilon}</li>
+            <li>静电比拟：<span class="formula-inline">G/C = \frac{\sigma}{\varepsilon}</span></li>
             <li>功率损耗：P = ∫ &sigma;|E|&sup2; dV</li>
           </ul>
         </div>
@@ -1525,12 +1634,19 @@ html,body{
     }
   });
 
-  // Touch swipe
-  var touchStartX = 0;
-  document.addEventListener('touchstart',function(e){ touchStartX=e.changedTouches[0].screenX; },{passive:true});
+  // Touch swipe (区分水平/垂直方向)
+  var touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart',function(e){
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  },{passive:true});
   document.addEventListener('touchend',function(e){
     var dx = e.changedTouches[0].screenX - touchStartX;
-    if(Math.abs(dx)>50){ navigate(dx<0?1:-1); }
+    var dy = e.changedTouches[0].screenY - touchStartY;
+    // 仅水平滑动距离大于50且显著大于垂直距离时才切换
+    if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)){
+      navigate(dx < 0 ? 1 : -1);
+    }
   },{passive:true});
 
   // Hamburger menu
@@ -1632,9 +1748,20 @@ html,body{
 </script>
 
 <script>
-// KaTeX post-processing: convert formula text to rendered math
+// ========================================
+// 电磁场知识总结 — 交互脚本
+// 功能：幻灯片导航、侧边栏、目录、键盘控制、触摸滑动、KaTeX公式渲染
+// ========================================
+
+// KaTeX 后处理：将公式文本转换为渲染后的数学符号
+// 流程：HTML实体 → LaTeX命令 → KaTeX渲染
 document.addEventListener('DOMContentLoaded', function(){
-  if(typeof katex === 'undefined') return;
+  // Wait for KaTeX to load (handle slow CDN)
+  function waitForKatex(cb, retries) {
+    if (typeof katex !== 'undefined') { cb(); return; }
+    if (retries > 0) { setTimeout(function(){ waitForKatex(cb, retries - 1); }, 200); }
+  }
+  waitForKatex(function(){
 
   function htmlToTex(el){
     var html = el.innerHTML;
@@ -1655,6 +1782,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // Order matters: multi-char entities before single-char ones
     html = html.replace(/&epsilon;&#8320;/g, '\\varepsilon_0');   // ε₀
     html = html.replace(/&epsilon;/g, '\\varepsilon');
+    html = html.replace(/&Phi;/g, '\\Phi');
     html = html.replace(/&middot;/g, ' \\cdot ');
     html = html.replace(/&times;/g, ' \\times ');
     html = html.replace(/&nabla;/g, '\\nabla');
@@ -1677,6 +1805,7 @@ document.addEventListener('DOMContentLoaded', function(){
     html = html.replace(/∫/g, '\\int');
     // Greek letters
     html = html.replace(/ε/g, '\\varepsilon');
+    html = html.replace(/Φ/g, '\\Phi');
     html = html.replace(/ρ/g, '\\rho');
     html = html.replace(/σ/g, '\\sigma');
     html = html.replace(/θ/g, '\\theta');
@@ -1728,7 +1857,7 @@ document.addEventListener('DOMContentLoaded', function(){
       el.setAttribute('title', '公式渲染失败: ' + e.message);
     }
   });
-});
+}, 1000);
 </script>
 
 </body>
